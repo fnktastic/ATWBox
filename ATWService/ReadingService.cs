@@ -13,14 +13,6 @@ namespace ATWService
                 throw new ArgumentNullException("Read");
             }
 
-            // Some modifications
-            read.Time = DateTime.Now;
-            read.ID = 1;
-            read.PeakRssiInDbm = "-11Dbm";
-            read.Epc = "CHIP 4";
-            read.ReadingID = 1;
-            read.UniqueReadID = Guid.NewGuid().ToString();
-
             return read;
         }
 

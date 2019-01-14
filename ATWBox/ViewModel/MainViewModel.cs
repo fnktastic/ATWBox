@@ -6,23 +6,37 @@ using System.Collections.Generic;
 using System.Threading;
 using ATWService.Model;
 using ATWService;
+using ATWBox.Enum;
 
 namespace ATWBox.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly Task _readTask;
+        #region fields
+        private Task _readTask;
         private CancellationToken _cancellationToken;
         private List<ReadType> _reads { get; set; } = new List<ReadType>();
+        private dynamic binding;
+        private dynamic endpoint;
+        #endregion
 
+        #region constructor
         public MainViewModel()
+        {
+            InitProtocol(ProtocolEnum.Tcp);
+            InitTask();
+            _readTask.ConfigureAwait(false);
+            _readTask.Start();
+        }
+        #endregion
+
+        #region methods
+        private void InitTask()
         {
             _readTask = new Task(() =>
             {
                 _cancellationToken = new CancellationToken();
-                //var binding = new BasicHttpBinding();
-                var binding = new NetTcpBinding();
-                var endpoint = new EndpointAddress(Consts.SERVICE_URL);
+
                 using (var channelFactory = new ChannelFactory<IReadingService>(binding, endpoint))
                 {
                     IReadingService service = null;
@@ -33,10 +47,6 @@ namespace ATWBox.ViewModel
                         {
                             var read = service.GetReadUsingDataContract(new ReadType());
                             _reads.Add(read);
-
-                            var reading = service.GetReadingUsingDataContract(new ReadingType());
-                            var reader = service.GetReaderUsingDataContract(new ReaderType());
-
                             _readTask.Wait(Consts.DELAY);
                         } while (_cancellationToken.IsCancellationRequested == false);
                     }
@@ -46,9 +56,21 @@ namespace ATWBox.ViewModel
                     }
                 }
             });
-
-            _readTask.ConfigureAwait(false);
-            _readTask.Start();
         }
+
+        private void InitProtocol(ProtocolEnum protocol)
+        {
+            if (protocol == ProtocolEnum.Http)
+            {
+                binding = new BasicHttpBinding();
+                endpoint = new EndpointAddress(Consts.HttpUrl());
+            }
+            if (protocol == ProtocolEnum.Tcp)
+            {
+                binding = new NetTcpBinding(SecurityMode.None);
+                endpoint = new EndpointAddress(Consts.TcpUrl());
+            }
+        }
+        #endregion
     }
 }
