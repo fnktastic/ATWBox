@@ -14,5 +14,11 @@ namespace GettingDataService
     {
         [OperationContract]
         ReadType GetReadUsingDataContract(ReadType read);
+
+        [OperationContract]
+        ReadingType GetReadingUsingDataContract(ReadingType read);
+
+        [OperationContract]
+        ReaderType GetReaderUsingDataContract(ReaderType read);
     }
 }

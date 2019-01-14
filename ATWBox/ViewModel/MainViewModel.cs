@@ -32,6 +32,10 @@ namespace ATWBox.ViewModel
                         {
                             var read = service.GetReadUsingDataContract(new ReadType());
                             _reads.Add(read);
+
+                            var reading = service.GetReadingUsingDataContract(new ReadingType());
+                            var reader = service.GetReaderUsingDataContract(new ReaderType());
+
                             _readTask.Wait(Consts.DELAY);
                         } while (_cancellationToken.IsCancellationRequested == false);
                     }

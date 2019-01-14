@@ -13,6 +13,7 @@ namespace GettingDataService.Contract
         private string _epc = "<unknown>";
         private DateTime _time = DateTime.UtcNow;
         private string _peakRssiInDbm = "<unknown>";
+        private string _uniqueReadID = "<unknown>";
 
         private int _readingID;
 
@@ -49,6 +50,13 @@ namespace GettingDataService.Contract
         {
             get { return _readingID; }
             set { _readingID = value; }
+        }
+
+        [DataMember]
+        public string UniqueReadID
+        {
+            get { return _uniqueReadID; }
+            set { _uniqueReadID = value; }
         }
     }
 }
