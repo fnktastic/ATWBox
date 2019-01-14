@@ -115,9 +115,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GettingDataService\GettingDataService.csproj">
-      <Project>{0FA1A16B-FA56-45C5-9F6C-ABF8833A3854}</Project>
-      <Name>GettingDataService</Name>
+    <ProjectReference Include="..\ATWService\ATWService.csproj">
+      <Project>{4E88ACB9-45F4-4737-9AA4-14589C2E4C35}</Project>
+      <Name>ATWService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

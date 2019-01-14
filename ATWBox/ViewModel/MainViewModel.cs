@@ -1,11 +1,11 @@
 using System;
 using GalaSoft.MvvmLight;
-using GettingDataService;
 using System.ServiceModel;
 using System.Threading.Tasks;
-using GettingDataService.Contract;
 using System.Collections.Generic;
 using System.Threading;
+using ATWService.Model;
+using ATWService;
 
 namespace ATWBox.ViewModel
 {
@@ -20,7 +20,7 @@ namespace ATWBox.ViewModel
             _readTask = new Task(() =>
             {
                 _cancellationToken = new CancellationToken();
-                var binding = new BasicHttpBinding();                
+                var binding = new BasicHttpBinding();
                 var endpoint = new EndpointAddress(Consts.SERVICE_URL);
                 using (var channelFactory = new ChannelFactory<IReadingService>(binding, endpoint))
                 {
@@ -39,7 +39,7 @@ namespace ATWBox.ViewModel
                             _readTask.Wait(Consts.DELAY);
                         } while (_cancellationToken.IsCancellationRequested == false);
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         (service as ICommunicationObject)?.Abort();
                     }
