@@ -20,7 +20,8 @@ namespace ATWBox.ViewModel
             _readTask = new Task(() =>
             {
                 _cancellationToken = new CancellationToken();
-                var binding = new BasicHttpBinding();
+                //var binding = new BasicHttpBinding();
+                var binding = new NetTcpBinding();
                 var endpoint = new EndpointAddress(Consts.SERVICE_URL);
                 using (var channelFactory = new ChannelFactory<IReadingService>(binding, endpoint))
                 {
