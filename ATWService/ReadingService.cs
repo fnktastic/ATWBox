@@ -1,11 +1,21 @@
-﻿using ATWService.Model;
+﻿using ATWService.DataAccess;
+using ATWService.Model;
 using System;
-
+using System.Data.Entity;
+using System.Diagnostics;
+using System.ServiceModel;
 
 namespace ATWService
 {
     public class ReadingService : IReadingService
     {
+
+        public static void Configure(ServiceConfiguration configuration)
+        {
+            configuration.LoadFromConfiguration();
+            Database.SetInitializer(new Initializer());
+        }
+
         public ReadType GetReadUsingDataContract(ReadType read)
         {
             if (read == null)
