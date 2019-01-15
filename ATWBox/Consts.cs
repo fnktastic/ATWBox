@@ -17,7 +17,7 @@ namespace ATWBox
             return string.Format("http://{0}:{1}/{2}", host, port, HTTP_SERVICE_PATH);
         }
 
-        public static string TcpUrl(int port = 8732, string host = "127.0.0.1")
+        public static string TcpUrl(int port = 8732, string host = "192.168.1.101")
         {
             return string.Format("net.tcp://{0}:{1}/{2}", host, port, TCP_SERVICE_PATH);
         }

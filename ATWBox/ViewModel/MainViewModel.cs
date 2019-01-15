@@ -23,10 +23,20 @@ namespace ATWBox.ViewModel
         #region constructor
         public MainViewModel()
         {
-            InitProtocol(ProtocolEnum.Tcp);
-            InitTask();
-            _readTask.ConfigureAwait(false);
-            _readTask.Start();
+            try
+            {
+                Logger.InitLogger();
+                InitProtocol(ProtocolEnum.Http);
+                InitTask();
+                _readTask.ConfigureAwait(false);
+                _readTask.Start();
+
+                Logger.Log.Info("Client started...");
+            }
+            catch(Exception ex)
+            {
+                Logger.Log.Error(string.Format("{0}: {1}", nameof(MainViewModel), ex.Message));
+            }
         }
         #endregion
 
@@ -53,6 +63,7 @@ namespace ATWBox.ViewModel
                     catch (Exception ex)
                     {
                         (service as ICommunicationObject)?.Abort();
+                        Logger.Log.Error(string.Format("{0}: {1}", nameof(InitTask), ex.Message));
                     }
                 }
             });
@@ -60,15 +71,22 @@ namespace ATWBox.ViewModel
 
         private void InitProtocol(ProtocolEnum protocol)
         {
-            if (protocol == ProtocolEnum.Http)
+            try
             {
-                binding = new BasicHttpBinding();
-                endpoint = new EndpointAddress(Consts.HttpUrl());
+                if (protocol == ProtocolEnum.Http)
+                {
+                    binding = new BasicHttpBinding();
+                    endpoint = new EndpointAddress(Consts.HttpUrl());
+                }
+                if (protocol == ProtocolEnum.Tcp)
+                {
+                    binding = new NetTcpBinding(SecurityMode.None);
+                    endpoint = new EndpointAddress(Consts.TcpUrl());
+                }
             }
-            if (protocol == ProtocolEnum.Tcp)
+            catch(Exception ex)
             {
-                binding = new NetTcpBinding(SecurityMode.None);
-                endpoint = new EndpointAddress(Consts.TcpUrl());
+                Logger.Log.Error(string.Format("{0}: {1}", nameof(InitProtocol), ex.Message));
             }
         }
         #endregion
