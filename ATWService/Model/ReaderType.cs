@@ -1,11 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace ATWService.Model
 {
     [DataContract]
     public class ReaderType
     {
-        private int _id = -1;
+        private int _id;
         private string _host = "<unknown>";
         private string _port = "<unknown>";
 

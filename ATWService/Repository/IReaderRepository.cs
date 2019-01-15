@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace ATWService.Repository
 {
-    public interface IReadRepository
+    public interface IReaderRepository
     {
-        IEnumerable<ReadType> Reads { get; }
+        IEnumerable<ReaderType> Readers { get; }
 
-        void SaveRead(ReadType readType);
+        void SaveReader(ReaderType reader);
     }
 }

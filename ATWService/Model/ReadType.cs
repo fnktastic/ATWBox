@@ -9,7 +9,7 @@ namespace ATWService.Model
     [DataContract]
     public class ReadType
     {
-        private int _id = -1;
+        private int _id;
         private string _epc = "<unknown>";
         private DateTime _time = DateTime.UtcNow;
         private string _peakRssiInDbm = "<unknown>";
@@ -46,17 +46,17 @@ namespace ATWService.Model
         }
 
         [DataMember]
-        public int ReadingID
-        {
-            get { return _readingID; }
-            set { _readingID = value; }
-        }
-
-        [DataMember]
         public string UniqueReadID
         {
             get { return _uniqueReadID; }
             set { _uniqueReadID = value; }
+        }
+
+        [DataMember]
+        public int ReadingID
+        {
+            get { return _readingID; }
+            set { _readingID = value; }
         }
     }
 }

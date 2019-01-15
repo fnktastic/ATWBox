@@ -6,7 +6,7 @@ namespace ATWService.Model
     [DataContract]
     public class ReadingType
     {
-        private int _id = -1;
+        private int _id;
         private string _antennaNumber = "<unknown>";
         private string _readerNumber = "<unknown>";
         private string _ipAddress = "<unknown>";
@@ -15,7 +15,7 @@ namespace ATWService.Model
         private string _fileName = "<unknown>";
         private DateTime? _startedDateTime = null;
         private DateTime? _endedDateTime = null;
-        private int _readerID = -1;
+        private int _readerID;
 
         [DataMember]
         public int ID

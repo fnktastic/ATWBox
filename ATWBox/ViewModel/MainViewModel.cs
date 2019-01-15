@@ -53,10 +53,11 @@ namespace ATWBox.ViewModel
                     try
                     {
                         service = channelFactory.CreateChannel();
+                        var reader = service.GetReaderUsingDataContract(new ReaderType());
+                        var reading = service.GetReadingUsingDataContract(new ReadingType());
                         do
                         {
                             var read = service.GetReadUsingDataContract(new ReadType());
-                            _reads.Add(read);
                             _readTask.Wait(Consts.DELAY);
                         } while (_cancellationToken.IsCancellationRequested == false);
                     }
