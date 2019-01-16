@@ -1,6 +1,7 @@
 ﻿using ATWService.Model;
 using System;
 using System.ServiceModel;
+using System.Threading.Tasks;
 
 namespace ATWService
 {
@@ -8,12 +9,15 @@ namespace ATWService
     public interface IReadingService
     {
         [OperationContract]
-        ReadType GetReadUsingDataContract(ReadType read);
+        Task<ReadType> GetReadUsingDataContract(ReadType read);
 
         [OperationContract]
-        ReadingType GetReadingUsingDataContract(ReadingType read);
+        Task<ReadingType> GetReadingUsingDataContract(ReadingType read);
 
         [OperationContract]
-        ReaderType GetReaderUsingDataContract(ReaderType read);
+        Task<ReaderType> GetReaderUsingDataContract(ReaderType read);
+
+        [OperationContract]
+        RaceType GetRaceUsingDataContract(int readingID);
     }
 }

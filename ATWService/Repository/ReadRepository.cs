@@ -19,7 +19,7 @@ namespace ATWService.Repository
 
         public IEnumerable<ReadType> Reads => _context.Reads;
 
-        public void SaveRead(ReadType read)
+        public async Task SaveReadAsync(ReadType read)
         {
             if (read != null)
             {
@@ -37,7 +37,7 @@ namespace ATWService.Repository
                     }
                 }
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }

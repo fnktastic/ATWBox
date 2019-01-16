@@ -11,6 +11,6 @@ namespace ATWService.Repository
     {
         IEnumerable<ReaderType> Readers { get; }
 
-        void SaveReader(ReaderType reader);
+        Task SaveReader(ReaderType reader);
     }
 }

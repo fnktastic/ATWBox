@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="DataAccess\Context.cs" />
     <Compile Include="IReadingService.cs" />
+    <Compile Include="Model\RaceType.cs" />
     <Compile Include="Model\ReaderType.cs" />
     <Compile Include="Model\ReadingType.cs" />
     <Compile Include="Model\ReadType.cs" />

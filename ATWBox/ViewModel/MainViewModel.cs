@@ -43,7 +43,7 @@ namespace ATWBox.ViewModel
         #region methods
         private void InitTask()
         {
-            _readTask = new Task(() =>
+            _readTask = new Task(async () =>
             {
                 _cancellationToken = new CancellationToken();
 
@@ -53,12 +53,12 @@ namespace ATWBox.ViewModel
                     try
                     {
                         service = channelFactory.CreateChannel();
-                        var reader = service.GetReaderUsingDataContract(new ReaderType());
-                        var reading = service.GetReadingUsingDataContract(new ReadingType());
+                        var reader = await service.GetReaderUsingDataContract(new ReaderType());
+                        var reading = await service.GetReadingUsingDataContract(new ReadingType() { ReaderID = reader.ID });
                         do
                         {
-                            var read = service.GetReadUsingDataContract(new ReadType());
-                            _readTask.Wait(Consts.DELAY);
+                            var read = await service.GetReadUsingDataContract(new ReadType() { ReadingID = reading.ID });
+                            await Task.Delay(Consts.DELAY);
                         } while (_cancellationToken.IsCancellationRequested == false);
                     }
                     catch (Exception ex)

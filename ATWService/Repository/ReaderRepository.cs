@@ -19,7 +19,7 @@ namespace ATWService.Repository
 
         public IEnumerable<ReaderType> Readers => _context.Readers;
 
-        public void SaveReader(ReaderType reader)
+        public async Task SaveReader(ReaderType reader)
         {
             if(reader != null)
             {
@@ -35,7 +35,7 @@ namespace ATWService.Repository
                     dbEntry.Port = reader.Port;
                 }
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }

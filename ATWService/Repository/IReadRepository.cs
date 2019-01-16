@@ -11,6 +11,6 @@ namespace ATWService.Repository
     {
         IEnumerable<ReadType> Reads { get; }
 
-        void SaveRead(ReadType readType);
+        Task SaveReadAsync(ReadType readType);
     }
 }

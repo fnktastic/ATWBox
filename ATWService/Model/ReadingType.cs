@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace ATWService.Model
@@ -81,7 +83,7 @@ namespace ATWService.Model
         }
 
         [DataMember]
-        public  int ReaderID
+        public int ReaderID
         {
             get { return _readerID; }
             set { _readerID = value; }
