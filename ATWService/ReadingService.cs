@@ -13,23 +13,27 @@ namespace ATWService
 {
     public class ReadingService : IReadingService
     {
-        private static Context _context;
-        private static IReadRepository _readRepository;
-        private static IReaderRepository _readerRepository;
-        private static IReadingRepository _readingRepository;
+        private readonly Context _context;
+        private readonly IReadRepository _readRepository;
+        private readonly IReaderRepository _readerRepository;
+        private readonly IReadingRepository _readingRepository;
 
         private static List<ReaderType> activeReaders;
         private static List<ReadingType> activeReadings;
         private static List<ReadType> activeReads;
 
-        public static void Configure(ServiceConfiguration configuration)
+        public ReadingService()
         {
-            configuration.LoadFromConfiguration();
-            Database.SetInitializer(new Initializer());
             _context = new Context();
             _readRepository = new ReadRepository(_context);
             _readingRepository = new ReadingRepository(_context);
             _readerRepository = new ReaderRepository(_context);
+        }
+
+        public static void Configure(ServiceConfiguration configuration)
+        {
+            configuration.LoadFromConfiguration();
+            Database.SetInitializer(new Initializer());
             activeReaders = new List<ReaderType>();
             activeReadings = new List<ReadingType>();
             activeReads = new List<ReadType>();
@@ -37,13 +41,20 @@ namespace ATWService
 
         public async Task<ReadType> GetReadUsingDataContract(ReadType read)
         {
-            if (read == null)
+            try
             {
-                throw new ArgumentNullException("Read");
-            }
+                if (read == null)
+                {
+                    throw new ArgumentNullException("Read");
+                }
 
-            await _readRepository.SaveReadAsync(read).ConfigureAwait(false);
-            activeReads.Add(read);
+                await Task.WhenAll(_readRepository.SaveReadAsync(read));
+                activeReads.Add(read);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
             return read;
         }
 
