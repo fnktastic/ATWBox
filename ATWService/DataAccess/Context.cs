@@ -10,7 +10,7 @@ namespace ATWService.DataAccess
 {
     public class Context : DbContext
     {
-        public Context() : base("atw") { }
+        public Context() : base("AtwDB") { }
 
         public DbSet<ReadType> Reads { get; set; }
         public DbSet<ReadingType> Readings { get; set; }
