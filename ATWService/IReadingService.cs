@@ -23,5 +23,8 @@ namespace ATWService
 
         [OperationContract]
         IEnumerable<ReadingType> GetActiveReadings();
+
+        [OperationContract]
+        IEnumerable<RaceType> GetActiveRaces();
     }
 }

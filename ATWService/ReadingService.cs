@@ -107,5 +107,31 @@ namespace ATWService
         {
             return activeReadings;
         }
+
+        public IEnumerable<RaceType> GetActiveRaces()
+        {
+            var list = new List<RaceType>();
+
+            foreach(var activeReading in activeReadings)
+            {
+                var reading = _readingRepository.Readings.FirstOrDefault(x => x.ID == activeReading.ID);
+                if (reading != null)
+                {
+                    var reads = _readRepository.Reads.Where(x => x.ReadingID == reading.ID);
+                    var reader = _readerRepository.Readers.FirstOrDefault(x => x.ID == reading.ReaderID);
+
+                    RaceType race = new RaceType()
+                    {
+                        Reader = reader,
+                        Reading = reading,
+                        Reads = reads
+                    };
+
+                    list.Add(race);
+                }
+            }
+          
+            return list;
+        }
     }
 }
