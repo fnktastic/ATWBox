@@ -102,5 +102,10 @@ namespace ATWService
 
             return null;
         }
+
+        public IEnumerable<ReadingType> GetActiveReadings()
+        {
+            return activeReadings;
+        }
     }
 }

@@ -4,8 +4,9 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
-using ATWService.Model;
-using ATWService;
+using System.Collections.ObjectModel;
+using System.Windows;
+using ATWBox.ATWService;
 using ATWBox.Enum;
 
 namespace ATWBox.ViewModel
@@ -15,9 +16,17 @@ namespace ATWBox.ViewModel
         #region fields
         private Task _readTask;
         private CancellationToken _cancellationToken;
-        private List<ReadType> _reads { get; set; } = new List<ReadType>();
         private dynamic binding;
         private dynamic endpoint;
+        #endregion
+
+        #region
+        private ObservableCollection<ReadType> _reads { get; set; } = new ObservableCollection<ReadType>();
+        public ObservableCollection<ReadType> Reads
+        {
+            get { return _reads; }
+            set { _reads = value; RaisePropertyChanged("Reads"); }
+        }
         #endregion
 
         #region constructor
@@ -56,11 +65,17 @@ namespace ATWBox.ViewModel
                     try
                     {
                         service = channelFactory.CreateChannel();
-                        var reader = await service.GetReaderUsingDataContract(new ReaderType());
-                        var reading = await service.GetReadingUsingDataContract(new ReadingType() { ReaderID = reader.ID, StartedDateTime = DateTime.UtcNow });
+                        var reader = await service.GetReaderUsingDataContractAsync(new ReaderType());
+                        var reading = await service.GetReadingUsingDataContractAsync(new ReadingType() { ReaderID = reader.ID, IPAddress = "192.168.0.1", StartedDateTime = DateTime.UtcNow });
                         do
                         {
-                            var read = await service.GetReadUsingDataContract(new ReadType() { ReadingID = reading.ID });
+                            var read = await service.GetReadUsingDataContractAsync(new ReadType() { ReadingID = reading.ID });
+
+                            Application.Current.Dispatcher.Invoke((Action)(() =>
+                            {
+                                _reads.Add(read);
+                            }));
+
                             await Task.Delay(Consts.DELAY);
                         } while (_cancellationToken.IsCancellationRequested == false);
                     }
@@ -80,7 +95,7 @@ namespace ATWBox.ViewModel
                 if (protocol == ProtocolEnum.Http)
                 {
                     binding = new WSHttpBinding(SecurityMode.None);
-                    endpoint = new EndpointAddress(Consts.HttpLocalhost());
+                    endpoint = new EndpointAddress(Consts.HttpUrl());
                 }
                 if (protocol == ProtocolEnum.Tcp)
                 {

@@ -1,5 +1,6 @@
 ﻿using ATWService.Model;
 using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
 
@@ -19,5 +20,8 @@ namespace ATWService
 
         [OperationContract]
         RaceType GetRaceUsingDataContract(int readingID);
+
+        [OperationContract]
+        IEnumerable<ReadingType> GetActiveReadings();
     }
 }
