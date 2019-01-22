@@ -33,7 +33,7 @@ namespace ATWBox.ViewModel
 
                 Logger.Log.Info("Client started...");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Log.Error(string.Format("{0}: {1}", nameof(MainViewModel), ex.Message));
             }
@@ -49,12 +49,15 @@ namespace ATWBox.ViewModel
 
                 using (var channelFactory = new ChannelFactory<IReadingService>(binding, endpoint))
                 {
+                    channelFactory.Credentials.UserName.UserName = "test";
+                    channelFactory.Credentials.UserName.Password = "test123";
+
                     IReadingService service = null;
                     try
                     {
                         service = channelFactory.CreateChannel();
                         var reader = await service.GetReaderUsingDataContract(new ReaderType());
-                        var reading = await service.GetReadingUsingDataContract(new ReadingType() { ReaderID = reader.ID });
+                        var reading = await service.GetReadingUsingDataContract(new ReadingType() { ReaderID = reader.ID, StartedDateTime = DateTime.UtcNow });
                         do
                         {
                             var read = await service.GetReadUsingDataContract(new ReadType() { ReadingID = reading.ID });
@@ -76,8 +79,8 @@ namespace ATWBox.ViewModel
             {
                 if (protocol == ProtocolEnum.Http)
                 {
-                    binding = new BasicHttpBinding();
-                    endpoint = new EndpointAddress(Consts.HttpUrl());
+                    binding = new WSHttpBinding(SecurityMode.None);
+                    endpoint = new EndpointAddress(Consts.HttpLocalhost());
                 }
                 if (protocol == ProtocolEnum.Tcp)
                 {
@@ -85,7 +88,7 @@ namespace ATWBox.ViewModel
                     endpoint = new EndpointAddress(Consts.TcpUrl());
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Log.Error(string.Format("{0}: {1}", nameof(InitProtocol), ex.Message));
             }
