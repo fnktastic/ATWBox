@@ -87,11 +87,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Connected Services\ATWService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Consts.cs" />
     <Compile Include="Enum\ProtocolEnum.cs" />
     <Compile Include="Logger.cs" />
@@ -128,28 +123,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\ATWService\ATWBox.ATWService.RaceType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\ATWService\ATWBox.ATWService.ReaderType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\ATWService\ATWBox.ATWService.ReadingType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\ATWService\ATWBox.ATWService.ReadType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\ATWService\ReadingService.wsdl" />
-    <None Include="Connected Services\ATWService\ReadingService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ATWService\ReadingService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ATWService\ReadingService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -164,25 +137,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\ATWService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ATWService\ReadingService.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ATWService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ATWService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ATWService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
+    <ProjectReference Include="..\ATWService\ATWService.csproj">
+      <Project>{4e88acb9-45f4-4737-9aa4-14589c2e4c35}</Project>
+      <Name>ATWService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

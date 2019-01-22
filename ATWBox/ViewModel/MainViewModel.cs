@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Windows;
-using ATWBox.ATWService;
 using ATWBox.Enum;
+using ATWService.Model;
+using ATWService;
 
 namespace ATWBox.ViewModel
 {
@@ -65,11 +66,11 @@ namespace ATWBox.ViewModel
                     try
                     {
                         service = channelFactory.CreateChannel();
-                        var reader = await service.GetReaderUsingDataContractAsync(new ReaderType());
-                        var reading = await service.GetReadingUsingDataContractAsync(new ReadingType() { ReaderID = reader.ID, IPAddress = "192.168.0.1", StartedDateTime = DateTime.UtcNow });
+                        var reader = await service.GetReaderUsingDataContract(new ReaderType());
+                        var reading = await service.GetReadingUsingDataContract(new ReadingType() { ReaderID = reader.ID, IPAddress = "192.168.0.1", StartedDateTime = DateTime.UtcNow });
                         do
                         {
-                            var read = await service.GetReadUsingDataContractAsync(new ReadType() { ReadingID = reading.ID });
+                            var read = await service.GetReadUsingDataContract(new ReadType() { ReadingID = reading.ID });
 
                             Application.Current.Dispatcher.Invoke((Action)(() =>
                             {
