@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 namespace ATWService.Model
 {
     [DataContract]
-    public class RaceType
+    public class Race
     {
         [DataMember]
-        public ReaderType Reader { get; set; }
+        public Reader Reader { get; set; }
 
         [DataMember]
-        public ReadingType Reading { get; set; }
+        public Reading Reading { get; set; }
 
         [DataMember]
-        public IEnumerable<ReadType> Reads { get; set; }
+        public List<Read> Reads { get; set; }
     }
 }

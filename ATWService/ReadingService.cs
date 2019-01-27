@@ -18,10 +18,6 @@ namespace ATWService
         private readonly IReaderRepository _readerRepository;
         private readonly IReadingRepository _readingRepository;
 
-        private static List<ReaderType> activeReaders;
-        private static List<ReadingType> activeReadings;
-        private static List<ReadType> activeReads;
-
         public ReadingService()
         {
             _context = new Context();
@@ -34,12 +30,9 @@ namespace ATWService
         {
             configuration.LoadFromConfiguration();
             Database.SetInitializer(new Initializer());
-            activeReaders = new List<ReaderType>();
-            activeReadings = new List<ReadingType>();
-            activeReads = new List<ReadType>();
         }
 
-        public async Task<ReadType> GetReadUsingDataContract(ReadType read)
+        public async Task<Read> SetRead(Read read)
         {
             try
             {
@@ -49,7 +42,6 @@ namespace ATWService
                 }
 
                 await Task.WhenAll(_readRepository.SaveReadAsync(read));
-                activeReads.Add(read);
             }
             catch (Exception ex)
             {
@@ -58,7 +50,7 @@ namespace ATWService
             return read;
         }
 
-        public async Task<ReadingType> GetReadingUsingDataContract(ReadingType reading)
+        public async Task<Reading> SetReading(Reading reading)
         {
             if (reading == null)
             {
@@ -66,11 +58,10 @@ namespace ATWService
             }
 
             await _readingRepository.SaveReading(reading);
-            activeReadings.Add(reading);
             return reading;
         }
 
-        public async Task<ReaderType> GetReaderUsingDataContract(ReaderType reader)
+        public async Task<Reader> SetReader(Reader reader)
         {
             if (reader == null)
             {
@@ -78,60 +69,19 @@ namespace ATWService
             }
 
             await _readerRepository.SaveReader(reader);
-            activeReaders.Add(reader);
             return reader;
         }
 
-        public RaceType GetRaceUsingDataContract(int readingID = 1)
+        public Reading GetReadingById(Guid readingID)
         {
-            var reading = _readingRepository.Readings.FirstOrDefault(x => x.ID == readingID);
-            if (reading != null)
-            {
-                var reads = _readRepository.Reads.Where(x => x.ReadingID == reading.ID);
-                var reader = _readerRepository.Readers.FirstOrDefault(x => x.ID == reading.ReaderID);
-
-                RaceType race = new RaceType()
-                {
-                    Reader = reader,
-                    Reading = reading,
-                    Reads = reads
-                };
-
-                return race;
-            }
-
-            return null;
+            return _readingRepository.GetById(readingID); ;
         }
 
-        public IEnumerable<ReadingType> GetActiveReadings()
+        public IEnumerable<Reading> GetReadings()
         {
-            return activeReadings;
+            return _readingRepository.Readings;
         }
 
-        public IEnumerable<RaceType> GetActiveRaces()
-        {
-            var list = new List<RaceType>();
 
-            foreach(var activeReading in activeReadings)
-            {
-                var reading = _readingRepository.Readings.FirstOrDefault(x => x.ID == activeReading.ID);
-                if (reading != null)
-                {
-                    var reads = _readRepository.Reads.Where(x => x.ReadingID == reading.ID);
-                    var reader = _readerRepository.Readers.FirstOrDefault(x => x.ID == reading.ReaderID);
-
-                    RaceType race = new RaceType()
-                    {
-                        Reader = reader,
-                        Reading = reading,
-                        Reads = reads
-                    };
-
-                    list.Add(race);
-                }
-            }
-          
-            return list;
-        }
     }
 }

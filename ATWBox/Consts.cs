@@ -8,7 +8,7 @@ namespace ATWBox
 {
     public static class Consts
     {
-        public const int DELAY = 2761;
+        public const int DELAY = 3750;
         private const string HTTP_SERVICE_PATH = "ATWService/ReadingService.svc";
         private const string TCP_SERVICE_PATH = "Design_Time_Addresses/ATWService/ReadingService/tcp";
 

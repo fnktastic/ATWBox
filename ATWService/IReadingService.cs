@@ -10,21 +10,18 @@ namespace ATWService
     public interface IReadingService
     {
         [OperationContract]
-        Task<ReadType> GetReadUsingDataContract(ReadType read);
+        Task<Read> SetRead(Read read);
 
         [OperationContract]
-        Task<ReadingType> GetReadingUsingDataContract(ReadingType read);
+        Task<Reading> SetReading(Reading reading);
 
         [OperationContract]
-        Task<ReaderType> GetReaderUsingDataContract(ReaderType read);
+        Task<Reader> SetReader(Reader reader);
 
         [OperationContract]
-        RaceType GetRaceUsingDataContract(int readingID);
+        Reading GetReadingById(Guid readingID);
 
         [OperationContract]
-        IEnumerable<ReadingType> GetActiveReadings();
-
-        [OperationContract]
-        IEnumerable<RaceType> GetActiveRaces();
+        IEnumerable<Reading> GetReadings();
     }
 }

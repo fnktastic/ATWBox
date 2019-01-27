@@ -17,26 +17,18 @@ namespace ATWService.Repository
             _context = context;
         }
 
-        public IEnumerable<ReadType> Reads => _context.Reads;
+        public IEnumerable<Read> Reads => _context.Reads;
 
-        public async Task SaveReadAsync(ReadType read)
+        public async Task SaveReadAsync(Read read)
         {
             if (read != null)
             {
-                if (read.ID == 0)
-                    _context.Reads.Add(read);
-                else
+                if (read.ID == Guid.Empty)
                 {
-                    var dbEntry = _context.Reads.FirstOrDefault(x => x.ID == read.ID);
-                    if (dbEntry != null)
-                    {
-                        dbEntry.Epc = read.Epc;
-                        dbEntry.PeakRssiInDbm = read.PeakRssiInDbm;
-                        dbEntry.Time = read.Time;
-                        dbEntry.UniqueReadID = read.UniqueReadID;
-                    }
+                    read.ID = Guid.NewGuid();
                 }
 
+                _context.Reads.Add(read);
                 await _context.SaveChangesAsync();
             }
         }

@@ -9,8 +9,8 @@ namespace ATWService.Repository
 {
     public interface IReadRepository
     {
-        IEnumerable<ReadType> Reads { get; }
+        IEnumerable<Read> Reads { get; }
 
-        Task SaveReadAsync(ReadType readType);
+        Task SaveReadAsync(Read readType);
     }
 }

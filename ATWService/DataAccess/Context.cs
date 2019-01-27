@@ -12,9 +12,9 @@ namespace ATWService.DataAccess
     {
         public Context() : base("AtwDB") { }
 
-        public DbSet<ReadType> Reads { get; set; }
-        public DbSet<ReadingType> Readings { get; set; }
-        public DbSet<ReaderType> Readers { get; set; }
+        public DbSet<Read> Reads { get; set; }
+        public DbSet<Reading> Readings { get; set; }
+        public DbSet<Reader> Readers { get; set; }
     }
 
     public class Initializer : DropCreateDatabaseIfModelChanges<Context>

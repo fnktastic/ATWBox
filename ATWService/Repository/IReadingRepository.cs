@@ -9,8 +9,10 @@ namespace ATWService.Repository
 {
     public interface IReadingRepository
     {
-        IEnumerable<ReadingType> Readings { get; }
+        IEnumerable<Reading> Readings { get; }
 
-        Task SaveReading(ReadingType reading);
+        Task SaveReading(Reading reading);
+
+        Reading GetById(Guid id);
     }
 }

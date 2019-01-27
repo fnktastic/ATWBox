@@ -22,8 +22,8 @@ namespace ATWBox.ViewModel
         #endregion
 
         #region
-        private ObservableCollection<ReadType> _reads { get; set; } = new ObservableCollection<ReadType>();
-        public ObservableCollection<ReadType> Reads
+        private ObservableCollection<Read> _reads { get; set; } = new ObservableCollection<Read>();
+        public ObservableCollection<Read> Reads
         {
             get { return _reads; }
             set { _reads = value; RaisePropertyChanged("Reads"); }
@@ -66,11 +66,11 @@ namespace ATWBox.ViewModel
                     try
                     {
                         service = channelFactory.CreateChannel();
-                        var reader = await service.GetReaderUsingDataContract(new ReaderType());
-                        var reading = await service.GetReadingUsingDataContract(new ReadingType() { ReaderID = reader.ID, IPAddress = "192.168.0.1", StartedDateTime = DateTime.UtcNow });
+                        var reader = await service.SetReader(new Reader());
+                        var reading = await service.SetReading(new Reading() { ID = Guid.NewGuid(), ReaderID = reader.ID, IPAddress = "192.168.15.125", StartedDateTime = DateTime.UtcNow });
                         do
                         {
-                            var read = await service.GetReadUsingDataContract(new ReadType() { ReadingID = reading.ID });
+                            var read = await service.SetRead(new Read() { ID = Guid.NewGuid(), ReadingID = reading.ID, EPC = "TAG 14" });
 
                             Application.Current.Dispatcher.Invoke((Action)(() =>
                             {

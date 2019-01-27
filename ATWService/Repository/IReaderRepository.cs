@@ -9,8 +9,8 @@ namespace ATWService.Repository
 {
     public interface IReaderRepository
     {
-        IEnumerable<ReaderType> Readers { get; }
+        IEnumerable<Reader> Readers { get; }
 
-        Task SaveReader(ReaderType reader);
+        Task SaveReader(Reader reader);
     }
 }

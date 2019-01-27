@@ -17,27 +17,27 @@ namespace ATWService.Repository
             _context = context;
         }
 
-        public IEnumerable<ReadingType> Readings => _context.Readings;
+        public IEnumerable<Reading> Readings => _context.Readings;
 
-        public async Task SaveReading(ReadingType reading)
+        public async Task SaveReading(Reading reading)
         {
-            if(reading != null)
+            if (reading != null)
             {
-                if(reading.ID == 0)
+                reading.StartedDateTime = DateTime.UtcNow;
+
+                if (reading.ID == Guid.Empty)
                 {
-                    _context.Readings.Add(reading);
-                }
-                else
-                {
-                    var dbEntry = _context.Readings.FirstOrDefault(x => x.ID == reading.ID);
-                    if(dbEntry != null)
-                    {
-                        dbEntry.TimingPoint = reading.TimingPoint;
-                    }
+                    reading.ID = Guid.NewGuid();
                 }
 
+                _context.Readings.Add(reading);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public Reading GetById(Guid id)
+        {
+            return _context.Readings.FirstOrDefault(x => x.ID == id);
         }
     }
 }
