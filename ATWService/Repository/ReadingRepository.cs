@@ -3,8 +3,8 @@ using ATWService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace ATWService.Repository
 {
@@ -17,7 +17,12 @@ namespace ATWService.Repository
             _context = context;
         }
 
-        public IEnumerable<Reading> Readings => _context.Readings;
+        public IEnumerable<Reading> Readings => _context
+            .Readings
+            //.Include(x => x.Reads)
+            //.Include(y => y.Reader)
+            .AsNoTracking()
+            .ToList();
 
         public async Task SaveReading(Reading reading)
         {
@@ -37,7 +42,9 @@ namespace ATWService.Repository
 
         public Reading GetById(Guid id)
         {
-            return _context.Readings.FirstOrDefault(x => x.ID == id);
+            var reading = _context.Readings.FirstOrDefault(x => x.ID == id);
+
+            return reading;
         }
     }
 }

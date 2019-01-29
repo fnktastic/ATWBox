@@ -17,7 +17,10 @@ namespace ATWService.Repository
             _context = context;
         }
 
-        public IEnumerable<Reader> Readers => _context.Readers;
+        public IEnumerable<Reader> Readers => _context
+            .Readers
+            .AsNoTracking()
+            .ToList();
 
         public async Task SaveReader(Reader reader)
         {

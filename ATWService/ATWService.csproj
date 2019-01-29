@@ -65,6 +65,7 @@
     <Compile Include="CustomUsernameValidator.cs" />
     <Compile Include="DataAccess\Context.cs" />
     <Compile Include="IReadingService.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Model\Race.cs" />
     <Compile Include="Model\Reader.cs" />
     <Compile Include="Model\Reading.cs" />

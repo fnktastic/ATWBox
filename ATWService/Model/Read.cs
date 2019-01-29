@@ -21,9 +21,10 @@ namespace ATWService.Model
         [DataMember]
         public string Signal { get; set; } = "<unknown>";
 
-        [DataMember] // relation
+        [DataMember] 
         public Guid ReadingID { get; set; }
-        [DataMember] // relation
-        public Reading Reading { get; set; }
+
+        [DataMember] 
+        public virtual Reading Reading { get; set; }
     }
 }

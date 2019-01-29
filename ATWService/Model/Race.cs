@@ -11,10 +11,10 @@ namespace ATWService.Model
     public class Race
     {
         [DataMember]
-        public Reader Reader { get; set; }
+        public Reading Reading { get; set; }
 
         [DataMember]
-        public Reading Reading { get; set; }
+        public Reader Reader { get; set; }
 
         [DataMember]
         public List<Read> Reads { get; set; }

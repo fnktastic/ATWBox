@@ -14,7 +14,7 @@ namespace ATWBox
 
         public static string HttpUrl(int port = 81, string host = "77.68.12.158")
         {
-            return string.Format("http://{0}/{2}", host, port, HTTP_SERVICE_PATH);
+            return string.Format("http://{0}:{1}/{2}", host, port, HTTP_SERVICE_PATH);
         }
 
         public static string HttpLocalhost(int port = 81, string host = "localhost")

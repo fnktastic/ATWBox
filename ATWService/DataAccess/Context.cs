@@ -10,7 +10,10 @@ namespace ATWService.DataAccess
 {
     public class Context : DbContext
     {
-        public Context() : base("AtwDB") { }
+        public Context() : base("AtwDB")
+        {
+            this.Configuration.ProxyCreationEnabled = false;
+        }
 
         public DbSet<Read> Reads { get; set; }
         public DbSet<Reading> Readings { get; set; }

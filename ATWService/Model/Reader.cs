@@ -16,7 +16,7 @@ namespace ATWService.Model
         [DataMember]
         public string Port { get; set; } = "<unknown>";
 
-        [DataMember] // relation
-        public virtual List<Reading> Readings { get; set; }
+        [DataMember] 
+        public virtual ICollection<Reading> Readings { get; set; }
     }
 }
