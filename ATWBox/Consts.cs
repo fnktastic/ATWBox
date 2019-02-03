@@ -9,12 +9,12 @@ namespace ATWBox
     public static class Consts
     {
         public const int DELAY = 3750;
-        private const string HTTP_SERVICE_PATH = "ReadingService.svc";
+        private const string HTTP_SERVICE_PATH = "ATWService/ReadingService.svc";
         private const string TCP_SERVICE_PATH = "Design_Time_Addresses/ATWService/ReadingService/tcp";
 
-        public static string HttpUrl(int port = 80, string host = "77.68.12.158")
+        public static string HttpUrl(int port = 81, string host = "77.68.12.158")
         {
-            return string.Format("http://{0}/{2}", host, port, HTTP_SERVICE_PATH);
+            return string.Format("http://{0}:{1}/{2}", host, port, HTTP_SERVICE_PATH);
         }
 
         public static string HttpLocalhost(int port = 81, string host = "localhost")
