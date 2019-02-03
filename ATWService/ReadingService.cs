@@ -30,16 +30,18 @@ namespace ATWService
             _readRepository = new ReadRepository(_context);
             _readingRepository = new ReadingRepository(_context);
             _readerRepository = new ReaderRepository(_context);
+            Logger.Log.Info("Incoming request...");
         }
 
         public static void Configure(ServiceConfiguration configuration)
         {
             configuration.LoadFromConfiguration();
             Database.SetInitializer(new Initializer());
+            Logger.Log.Info("Configure...");
         }
 
         #region set
-        public async Task<Read> SetRead(Read read)
+        public async Task<Read> SetReadAsync(Read read)
         {
             try
             {
@@ -57,7 +59,7 @@ namespace ATWService
             return read;
         }
 
-        public async Task<Reading> SetReading(Reading reading)
+        public async Task<Reading> SetReadingAsync(Reading reading)
         {
             if (reading == null)
             {
@@ -68,7 +70,7 @@ namespace ATWService
             return reading;
         }
 
-        public async Task<Reader> SetReader(Reader reader)
+        public async Task<Reader> SetReaderAsync(Reader reader)
         {
             if (reader == null)
             {
@@ -98,41 +100,43 @@ namespace ATWService
 
         public IEnumerable<Reader> GetAllReaders()
         {
+            Logger.Log.Info("Getting All Readers");
             return _readerRepository.Readers;
         }
 
-        public Read GetReadByID(Guid readID)
+        public Read GetReadByIDAsync(Guid readID)
         {
             return _readRepository.Reads.FirstOrDefault(x => x.ID == readID);
         }
 
-        public Reading GetReadingByID(Guid readingID)
+        public async Task<Reading> GetReadingByIDAsync(Guid readingID)
         {
-            return _readingRepository.Readings.FirstOrDefault(x => x.ID == readingID);
+            return (await _readingRepository.ReadingsAsync()).FirstOrDefault(x => x.ID == readingID);
         }
 
-        public IEnumerable<Reading> GetAllReadings()
+        public async Task <IEnumerable<Reading>> GetAllReadingsAsync()
         {
-            return _readingRepository.Readings;
+            Logger.Log.Info("Getting All Readings");
+            return await _readingRepository.ReadingsAsync();
         }
 
-        public IEnumerable<Race> GetAllRaces()
+        public async Task<IEnumerable<Race>> GetAllRacesAsync()
         {
-            var races = _readingRepository.Readings.ToList().Select(item => new Race()
+            var races = (await _readingRepository.ReadingsAsync()).ToList().Select(item => new Race()
             {
                 Reads = _readRepository.Reads.Where(x => x.ReadingID == item.ID).ToList(),
                 Reader = _readerRepository.Readers.FirstOrDefault(x => x.ID == item.ReaderID),
                 Reading = item
             }).ToList();
 
-            Logger.Log.Info(nameof(GetAllRaces));
+            Logger.Log.Info(nameof(GetAllRacesAsync));
             return races;
         }
 
-        public Race GetRaceByReadingID(Guid readingID)
+        public async Task<Race> GetRaceByReadingIDAsync(Guid readingID)
         {
-            var reading = _readingRepository
-                .Readings
+            var reading = (await _readingRepository
+                .ReadingsAsync())
                 .FirstOrDefault(x => x.ID == readingID);
 
             if (reading != null)

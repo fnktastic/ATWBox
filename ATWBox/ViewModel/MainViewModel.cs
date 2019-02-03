@@ -66,11 +66,11 @@ namespace ATWBox.ViewModel
                     try
                     {
                         service = channelFactory.CreateChannel();
-                        var reader = await service.SetReader(new Reader());
-                        var reading = await service.SetReading(new Reading() { ID = Guid.NewGuid(), ReaderID = reader.ID, IPAddress = "192.168.15.125", StartedDateTime = DateTime.UtcNow });
+                        var reader = await service.SetReaderAsync(new Reader());
+                        var reading = await service.SetReadingAsync(new Reading() { ID = Guid.NewGuid(), ReaderID = reader.ID, IPAddress = "192.168.15.125", StartedDateTime = DateTime.UtcNow });
                         do
                         {
-                            var read = await service.SetRead(new Read() { ID = Guid.NewGuid(), ReadingID = reading.ID, EPC = "TAG 14" });
+                            var read = await service.SetReadAsync(new Read() { ID = Guid.NewGuid(), ReadingID = reading.ID, EPC = "TAG 14" });
 
                             Application.Current.Dispatcher.Invoke((Action)(() =>
                             {

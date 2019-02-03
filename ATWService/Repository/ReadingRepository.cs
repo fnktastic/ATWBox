@@ -17,12 +17,20 @@ namespace ATWService.Repository
             _context = context;
         }
 
-        public IEnumerable<Reading> Readings => _context
-            .Readings
-            //.Include(x => x.Reads)
-            //.Include(y => y.Reader)
-            .AsNoTracking()
-            .ToList();
+        public async Task<IEnumerable<Reading>> ReadingsAsync()
+        {
+            var readings = await _context
+                .Readings
+                .Include(x => x.Reads)
+                .ToListAsync();
+
+            readings.ForEach(x =>
+            {
+                x.TotalReads = x.Reads.Count();
+            });
+
+            return readings.AsEnumerable();
+        }
 
         public async Task SaveReading(Reading reading)
         {

@@ -9,7 +9,7 @@ namespace ATWService.Repository
 {
     public interface IReadingRepository
     {
-        IEnumerable<Reading> Readings { get; }
+        Task<IEnumerable<Reading>> ReadingsAsync();
 
         Task SaveReading(Reading reading);
 
