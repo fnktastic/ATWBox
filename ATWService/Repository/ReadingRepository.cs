@@ -19,17 +19,33 @@ namespace ATWService.Repository
 
         public async Task<IEnumerable<Reading>> ReadingsAsync()
         {
-            var readings = await _context
-                .Readings
-                .Include(x => x.Reads)
-                .ToListAsync();
-
-            readings.ForEach(x =>
+            try
             {
-                x.TotalReads = x.Reads.Count();
-            });
+                Logger.Log.Info("Task<IEnumerable<Reading>> ReadingsAsync() STARTED");
+                var readings = await _context
+                    .Readings                   
+                    .ToListAsync();
 
-            return readings.AsEnumerable();
+                var reads = await _context
+                    .Reads
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                readings.ForEach(x =>
+                {
+                    x.TotalReads = reads
+                    .Where(y => y.ReadingId == x.Id)
+                    .Count();
+                });
+
+                Logger.Log.Info("Task<IEnumerable<Reading>> ReadingsAsync() FINISHED");
+                return readings.AsEnumerable();
+            }
+            catch(Exception ex)
+            {
+                Logger.Log.Error(string.Format("Task<IEnumerable<Reading>> ReadingsAsync() {0}", ex.Message));
+                return null;
+            }
         }
 
         public async Task SaveReading(Reading reading)
@@ -38,9 +54,9 @@ namespace ATWService.Repository
             {
                 reading.StartedDateTime = DateTime.UtcNow;
 
-                if (reading.ID == Guid.Empty)
+                if (reading.Id == Guid.Empty)
                 {
-                    reading.ID = Guid.NewGuid();
+                    reading.Id = Guid.NewGuid();
                 }
 
                 _context.Readings.Add(reading);
@@ -48,9 +64,9 @@ namespace ATWService.Repository
             }
         }
 
-        public Reading GetById(Guid id)
+        public Reading GetById(Guid Id)
         {
-            var reading = _context.Readings.FirstOrDefault(x => x.ID == id);
+            var reading = _context.Readings.FirstOrDefault(x => x.Id == Id);
 
             return reading;
         }

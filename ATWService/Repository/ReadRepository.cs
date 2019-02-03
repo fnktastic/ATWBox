@@ -26,9 +26,9 @@ namespace ATWService.Repository
         {
             if (read != null)
             {
-                if (read.ID == Guid.Empty)
+                if (read.Id == Guid.Empty)
                 {
-                    read.ID = Guid.NewGuid();
+                    read.Id = Guid.NewGuid();
                 }
 
                 _context.Reads.Add(read);

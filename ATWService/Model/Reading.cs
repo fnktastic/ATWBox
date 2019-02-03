@@ -9,7 +9,7 @@ namespace ATWService.Model
     public class Reading
     {
         [DataMember]
-        public Guid ID { get; set; } = new Guid();
+        public Guid Id { get; set; } = new Guid();
 
         [DataMember]
         public string AntennaNumber { get; set; } = "<unknown>";
@@ -36,7 +36,7 @@ namespace ATWService.Model
         public DateTime? EndedDateTime { get; set; } = null;
 
         [DataMember] 
-        public int ReaderID { get; set; }
+        public int ReaderId { get; set; }
 
         [DataMember]
         public virtual Reader Reader { get; set; }

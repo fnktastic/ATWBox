@@ -8,7 +8,7 @@ namespace ATWService.Model
     public class Reader
     {
         [DataMember]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [DataMember]
         public string Host { get; set; } = "<unknown>";

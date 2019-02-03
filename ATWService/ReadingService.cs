@@ -20,24 +20,24 @@ namespace ATWService
 
         static ReadingService()
         {
+            Logger.Log.Info("Server starting...");
             Logger.InitLogger();
-            Logger.Log.Info("Server started...");
         }
 
         public ReadingService()
         {
+            Logger.Log.Info("Incoming request...");
             _context = new Context();
             _readRepository = new ReadRepository(_context);
             _readingRepository = new ReadingRepository(_context);
             _readerRepository = new ReaderRepository(_context);
-            Logger.Log.Info("Incoming request...");
         }
 
         public static void Configure(ServiceConfiguration configuration)
         {
+            Logger.Log.Info("Configure...");
             configuration.LoadFromConfiguration();
             Database.SetInitializer(new Initializer());
-            Logger.Log.Info("Configure...");
         }
 
         #region set
@@ -83,14 +83,14 @@ namespace ATWService
         #endregion
 
         #region get
-        public Reader GetReaderByID(int readerID)
+        public Reader GetReaderById(int readerId)
         {
-            return _readerRepository.Readers.FirstOrDefault(x => x.ID == readerID);
+            return _readerRepository.Readers.FirstOrDefault(x => x.Id == readerId);
         }
 
-        public IEnumerable<Read> GetAllReadsByReadingID(Guid readingID)
+        public IEnumerable<Read> GetAllReadsByReadingId(Guid readingId)
         {
-            return _readRepository.Reads.Where(x => x.ReadingID == readingID);
+            return _readRepository.Reads.Where(x => x.ReadingId == readingId);
         }
 
         public IEnumerable<Read> GetAllReads()
@@ -104,28 +104,36 @@ namespace ATWService
             return _readerRepository.Readers;
         }
 
-        public Read GetReadByIDAsync(Guid readID)
+        public Read GetReadById(Guid readId)
         {
-            return _readRepository.Reads.FirstOrDefault(x => x.ID == readID);
+            return _readRepository.Reads.FirstOrDefault(x => x.Id == readId);
         }
 
-        public async Task<Reading> GetReadingByIDAsync(Guid readingID)
+        public async Task<Reading> GetReadingByIdAsync(Guid readingId)
         {
-            return (await _readingRepository.ReadingsAsync()).FirstOrDefault(x => x.ID == readingID);
+            return (await _readingRepository.ReadingsAsync()).FirstOrDefault(x => x.Id == readingId);
         }
 
         public async Task <IEnumerable<Reading>> GetAllReadingsAsync()
         {
             Logger.Log.Info("Getting All Readings");
-            return await _readingRepository.ReadingsAsync();
+            try
+            {
+                return await _readingRepository.ReadingsAsync();
+            }
+            catch(Exception ex)
+            {
+                Logger.Log.Error(ex.Message);
+                return null;
+            }
         }
 
         public async Task<IEnumerable<Race>> GetAllRacesAsync()
         {
             var races = (await _readingRepository.ReadingsAsync()).ToList().Select(item => new Race()
             {
-                Reads = _readRepository.Reads.Where(x => x.ReadingID == item.ID).ToList(),
-                Reader = _readerRepository.Readers.FirstOrDefault(x => x.ID == item.ReaderID),
+                Reads = _readRepository.Reads.Where(x => x.ReadingId == item.Id).ToList(),
+                Reader = _readerRepository.Readers.FirstOrDefault(x => x.Id == item.ReaderId),
                 Reading = item
             }).ToList();
 
@@ -133,16 +141,16 @@ namespace ATWService
             return races;
         }
 
-        public async Task<Race> GetRaceByReadingIDAsync(Guid readingID)
+        public async Task<Race> GetRaceByReadingIdAsync(Guid readingId)
         {
             var reading = (await _readingRepository
                 .ReadingsAsync())
-                .FirstOrDefault(x => x.ID == readingID);
+                .FirstOrDefault(x => x.Id == readingId);
 
             if (reading != null)
             {
-                var reads = _readRepository.Reads.Where(x => x.ReadingID == readingID).ToList();
-                var reader = _readerRepository.Readers.FirstOrDefault(x => x.ID == reading.ReaderID);
+                var reads = _readRepository.Reads.Where(x => x.ReadingId == readingId).ToList();
+                var reader = _readerRepository.Readers.FirstOrDefault(x => x.Id == reading.ReaderId);
 
                 return new Race()
                 {

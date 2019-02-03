@@ -19,7 +19,7 @@ namespace ATWService
         Task<Reader> SetReaderAsync(Reader reader);
 
         [OperationContract]
-        Task<Reading> GetReadingByIDAsync(Guid readingID);
+        Task<Reading> GetReadingByIdAsync(Guid readingId);
 
         [OperationContract]
         Task<IEnumerable<Reading>> GetAllReadingsAsync();
@@ -28,21 +28,21 @@ namespace ATWService
         Task<IEnumerable<Race>> GetAllRacesAsync();
 
         [OperationContract]
-        Task<Race> GetRaceByReadingIDAsync(Guid readingID);
+        Task<Race> GetRaceByReadingIdAsync(Guid readingId);
 
         [OperationContract]
-        Read GetReadByIDAsync(Guid readID);
+        Read GetReadById(Guid readId);
 
         [OperationContract]
         IEnumerable<Read> GetAllReads();
 
         [OperationContract]
-        Reader GetReaderByID(int readerID);
+        Reader GetReaderById(int readerId);
 
         [OperationContract]
         IEnumerable<Reader> GetAllReaders();
 
         [OperationContract]
-        IEnumerable<Read> GetAllReadsByReadingID(Guid readingID);
+        IEnumerable<Read> GetAllReadsByReadingId(Guid readingId);
     }
 }

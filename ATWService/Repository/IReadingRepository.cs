@@ -13,6 +13,6 @@ namespace ATWService.Repository
 
         Task SaveReading(Reading reading);
 
-        Reading GetById(Guid id);
+        Reading GetById(Guid Id);
     }
 }

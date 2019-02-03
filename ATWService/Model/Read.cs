@@ -10,7 +10,7 @@ namespace ATWService.Model
     public class Read
     {
         [DataMember]
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
 
         [DataMember]
         public string EPC { get; set; } = "<unknown>";
@@ -22,7 +22,7 @@ namespace ATWService.Model
         public string Signal { get; set; } = "<unknown>";
 
         [DataMember] 
-        public Guid ReadingID { get; set; }
+        public Guid ReadingId { get; set; }
 
         [DataMember] 
         public virtual Reading Reading { get; set; }

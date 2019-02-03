@@ -26,13 +26,13 @@ namespace ATWService.Repository
         {
             if(reader != null)
             {
-                if(reader.ID == 0)
+                if(reader.Id == 0)
                 {
                     _context.Readers.Add(reader);
                 }
                 else
                 {
-                    var dbEntry = _context.Readers.FirstOrDefault(x => x.ID == reader.ID);
+                    var dbEntry = _context.Readers.FirstOrDefault(x => x.Id == reader.Id);
 
                     dbEntry.Host = reader.Host;
                     dbEntry.Port = reader.Port;
