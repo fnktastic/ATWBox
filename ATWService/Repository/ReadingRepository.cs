@@ -23,7 +23,8 @@ namespace ATWService.Repository
             {
                 Logger.Log.Info("Task<IEnumerable<Reading>> ReadingsAsync() STARTED");
                 var readings = await _context
-                    .Readings                   
+                    .Readings        
+                    .AsNoTracking()
                     .ToListAsync();
 
                 var reads = await _context
