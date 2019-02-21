@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ATWService
 {
     [ServiceContract]
-    public interface IReadingService
+    public interface IService
     {
         [OperationContract]
         Task<Read> SetReadAsync(Read read);

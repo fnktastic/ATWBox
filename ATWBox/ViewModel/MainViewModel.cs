@@ -57,12 +57,12 @@ namespace ATWBox.ViewModel
             {
                 _cancellationToken = new CancellationToken();
 
-                using (var channelFactory = new ChannelFactory<IReadingService>(binding, endpoint))
+                using (var channelFactory = new ChannelFactory<IService>(binding, endpoint))
                 {
-                    channelFactory.Credentials.UserName.UserName = "test";
-                    channelFactory.Credentials.UserName.Password = "test123";
+                    channelFactory.Credentials.UserName.UserName = string.Empty;
+                    channelFactory.Credentials.UserName.Password = string.Empty;
 
-                    IReadingService service = null;
+                    IService service = null;
                     try
                     {
                         service = channelFactory.CreateChannel();

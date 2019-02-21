@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATWService.Service.LastSeenLogService
+namespace ATWService.Services
 {
     public interface ILastSeenLogService
     {
-        Task<List<LastSeenLog>> GetAllAsync();
-        Task<List<LastSeenLog>> GetAllAliveAsync();
-        Task<List<LastSeenLog>> GetAllPastAsync();
+        Task<IEnumerable<LastSeenLog>> GetAllAsync();
+        Task<IEnumerable<LastSeenLog>> GetAllAliveAsync();
+        Task<IEnumerable<LastSeenLog>> GetAllPastAsync();
         Task AddOrUpdateAsync(LastSeenLog liveRaceViewModel);
     }
 
@@ -27,25 +27,25 @@ namespace ATWService.Service.LastSeenLogService
             get { return DateTime.UtcNow.AddHours(-1); }
         }
 
-        public LastSeenLogService()
+        public LastSeenLogService(Context context)
         {
-            _context = new Context();
+            _context = context;
             _lastSeenLogRepository = new LastSeenLogRepository(_context);
         }
 
-        public async Task<List<LastSeenLog>> GetAllAsync()
+        public async Task<IEnumerable<LastSeenLog>> GetAllAsync()
         {
             return await _lastSeenLogRepository.LastSeenLogsAsync();
         }
 
-        public async Task<List<LastSeenLog>> GetAllAliveAsync()
+        public async Task<IEnumerable<LastSeenLog>> GetAllAliveAsync()
         {
             return (await _lastSeenLogRepository.LastSeenLogsAsync())
                 .Where(x => x.LastSeenAt > LiveDateTime)
                 .ToList();
         }
 
-        public async Task<List<LastSeenLog>> GetAllPastAsync()
+        public async Task<IEnumerable<LastSeenLog>> GetAllPastAsync()
         {
             return (await _lastSeenLogRepository.LastSeenLogsAsync())
                 .Where(x => x.LastSeenAt < LiveDateTime)
