@@ -8,6 +8,13 @@ using System.Data.Entity;
 
 namespace ATWService.Repository
 {
+    public interface IReaderRepository
+    {
+        IEnumerable<Reader> Readers { get; }
+
+        Task SaveReader(Reader reader);
+    }
+
     public class ReadingRepository : IReadingRepository
     {
         private readonly Context _context;

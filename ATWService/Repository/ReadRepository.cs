@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace ATWService.Repository
 {
+    public interface IReadRepository
+    {
+        IEnumerable<Read> Reads { get; }
+
+        Task SaveReadAsync(Read readType);
+    }
+
     public class ReadRepository : IReadRepository
     {
         private readonly Context _context;

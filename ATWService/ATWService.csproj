@@ -66,18 +66,22 @@
     <Compile Include="DataAccess\Context.cs" />
     <Compile Include="IReadingService.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Model\LastSeenLog.cs" />
     <Compile Include="Model\Race.cs" />
     <Compile Include="Model\Reader.cs" />
     <Compile Include="Model\Reading.cs" />
     <Compile Include="Model\Read.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadingService.cs" />
-    <Compile Include="Repository\IReaderRepository.cs" />
-    <Compile Include="Repository\IReadingRepository.cs" />
-    <Compile Include="Repository\IReadRepository.cs" />
+    <Compile Include="Repository\LastSeenLogRepository.cs" />
     <Compile Include="Repository\ReaderRepository.cs" />
     <Compile Include="Repository\ReadingRepository.cs" />
     <Compile Include="Repository\ReadRepository.cs" />
+    <Compile Include="Service\LastSeenLog\LastSeenLogService.cs" />
+    <Compile Include="Service\Race\RaceService.cs" />
+    <Compile Include="Service\Reader\ReaderService.cs" />
+    <Compile Include="Service\Reading\ReadingService.cs" />
+    <Compile Include="Service\Read\ReadService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -87,6 +91,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <VSToolsPath Condition="'$(VSToolsPath)' == '' and '$(VisualStudioVersion)' != '' and '$(VisualStudioVersion)' != '11.0'">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -8,6 +8,15 @@ using System.Threading.Tasks;
 
 namespace ATWService.Repository
 {
+    public interface IReadingRepository
+    {
+        Task<IEnumerable<Reading>> ReadingsAsync();
+
+        Task SaveReading(Reading reading);
+
+        Reading GetById(Guid Id);
+    }
+
     public class ReaderRepository : IReaderRepository
     {
         private readonly Context _context;
