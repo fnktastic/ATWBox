@@ -14,6 +14,7 @@ namespace ATWService.Services
         Task<IEnumerable<LastSeenLog>> GetAllAsync();
         Task<IEnumerable<LastSeenLog>> GetAllAliveAsync();
         Task<IEnumerable<LastSeenLog>> GetAllPastAsync();
+        Task<LastSeenLog> GetByReadingId(Guid readingId);
         Task AddOrUpdateAsync(LastSeenLog liveRaceViewModel);
     }
 
@@ -50,6 +51,12 @@ namespace ATWService.Services
             return (await _lastSeenLogRepository.LastSeenLogsAsync())
                 .Where(x => x.LastSeenAt < LiveDateTime)
                 .ToList();
+        }
+
+        public async Task<LastSeenLog> GetByReadingId(Guid readingId)
+        {
+            return (await _lastSeenLogRepository.LastSeenLogsAsync())
+                .FirstOrDefault(x => x.ReadingId == readingId);
         }
 
         public async Task AddOrUpdateAsync(LastSeenLog liveRaceViewModel)

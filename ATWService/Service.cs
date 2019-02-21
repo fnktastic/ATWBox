@@ -10,18 +10,41 @@ using System.Threading.Tasks;
 
 namespace ATWService
 {
-    public class Service : IService
+    public interface IUpdatable
+    {
+        void Update(LastSeenLog lastSeenLog);
+        void Update(Guid readingId);
+    }
+
+    public class Service : IService, IUpdatable
     {
         private readonly Context _context;
         private readonly IReadService _readService;
         private readonly IReaderService _readerService;
         private readonly IReadingService _readingService;
         private readonly IRaceService _raceService;
+        private readonly ILastSeenLogService _lastSeenLogService;
 
         static Service()
         {
             Logger.Log.Info("Server starting...");
             Logger.InitLogger();
+        }
+
+        public void Update(LastSeenLog lastSeenLog)
+        {
+            _lastSeenLogService.AddOrUpdateAsync(lastSeenLog);
+        }
+
+        public void Update(Guid readingId)
+        {
+            var lastSeenLog = new LastSeenLog()
+            {
+                LastSeenAt = DateTime.UtcNow,
+                ReadingId = readingId
+            };
+
+            _lastSeenLogService.AddOrUpdateAsync(lastSeenLog);
         }
 
         public Service()
@@ -32,6 +55,7 @@ namespace ATWService
             _readerService = new ReaderService(_context);
             _readingService = new ReadingService(_context);
             _raceService = new RaceService(_context);
+            _lastSeenLogService = new LastSeenLogService(_context);
         }
 
         public static void Configure(ServiceConfiguration configuration)
@@ -52,6 +76,8 @@ namespace ATWService
                 }
 
                 await _readService.AddOrUpdateAsync(read);
+                
+                Update(read.ReadingId);
             }
             catch (Exception ex)
             {
@@ -71,6 +97,8 @@ namespace ATWService
                 }
 
                 await _readingService.AddOrUpdateAsync(reading);
+
+                Update(reading.Id);
             }
             catch (Exception ex)
             {
@@ -158,6 +186,26 @@ namespace ATWService
         public async Task<Race> GetRaceByReadingIdAsync(Guid readingId)
         {
             return await _raceService.GetRaceByReadingIdAsync(readingId);
+        }
+
+        public async Task<IEnumerable<LastSeenLog>> GetLastSeenLogsAsync()
+        {
+            return await _lastSeenLogService.GetAllAsync();
+        }
+
+        public async Task<LastSeenLog> GetLastSeenLogByReadingIdAsync(Guid readingId)
+        {
+            return await _lastSeenLogService.GetByReadingId(readingId);
+        }
+
+        public async Task<IEnumerable<LastSeenLog>> GetAllAliveLastSyncLogsAsync()
+        {
+            return await _lastSeenLogService.GetAllAliveAsync();
+        }
+
+        public async Task<IEnumerable<LastSeenLog>> GetAllPastLastSyncLogsAsync()
+        {
+            return await _lastSeenLogService.GetAllPastAsync();
         }
         #endregion
     }

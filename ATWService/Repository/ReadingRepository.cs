@@ -8,11 +8,17 @@ using System.Data.Entity;
 
 namespace ATWService.Repository
 {
-    public interface IReaderRepository
+    public interface IReadingRepository
     {
-        IEnumerable<Reader> Readers { get; }
+        Task<IEnumerable<Reading>> ReadingsAsync();
 
-        Task SaveReader(Reader reader);
+        Task<IEnumerable<Reading>> GetReadingsAsync();
+
+        Task SaveReadingAsync(Reading reading);
+
+        Task SaveReadingsRangeAsync(IEnumerable<Reading> readings);
+
+        Reading GetById(Guid Id);
     }
 
     public class ReadingRepository : IReadingRepository
@@ -23,7 +29,7 @@ namespace ATWService.Repository
         {
             _context = context;
         }
-
+               
         public async Task<IEnumerable<Reading>> ReadingsAsync()
         {
             try
@@ -56,7 +62,14 @@ namespace ATWService.Repository
             }
         }
 
-        public async Task SaveReading(Reading reading)
+        public async Task<IEnumerable<Reading>> GetReadingsAsync()
+        {
+            return await _context.Readings
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task SaveReadingAsync(Reading reading)
         {
             if (reading != null)
             {
@@ -68,6 +81,26 @@ namespace ATWService.Repository
                 }
 
                 _context.Readings.Add(reading);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task SaveReadingsRangeAsync(IEnumerable<Reading> readings)
+        {
+            if(readings != null)
+            {
+                foreach(var reading in readings)
+                {
+                    reading.StartedDateTime = DateTime.UtcNow;
+
+                    if (reading.Id == Guid.Empty)
+                    {
+                        reading.Id = Guid.NewGuid();
+                    }
+
+                    _context.Readings.Add(reading);
+                }
+
                 await _context.SaveChangesAsync();
             }
         }

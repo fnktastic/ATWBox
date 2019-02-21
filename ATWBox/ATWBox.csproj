@@ -152,9 +152,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ATWService\ATWService.csproj">
+    <ProjectReference Include="..\ATWService\AtwService.csproj">
       <Project>{4e88acb9-45f4-4737-9aa4-14589c2e4c35}</Project>
-      <Name>ATWService</Name>
+      <Name>AtwService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

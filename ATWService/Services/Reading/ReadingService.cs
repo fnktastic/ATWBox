@@ -12,8 +12,10 @@ namespace ATWService.Services
     public interface IReadingService
     {
         Task AddOrUpdateAsync(Reading reading);
+        Task AddOrUpdateRangeAsync(IEnumerable<Reading> readings);
         Task<Reading> GetByIdAsync(Guid readingId);
         Task<IEnumerable<Reading>> GetAllAsync();
+        Task RecalculateAllReadCount();
     }
 
     public class ReadingService : IReadingService
@@ -29,7 +31,12 @@ namespace ATWService.Services
 
         public async Task AddOrUpdateAsync(Reading reading)
         {
-            await _readingRepository.SaveReading(reading);
+            await _readingRepository.SaveReadingAsync(reading);
+        }
+
+        public async Task AddOrUpdateRangeAsync(IEnumerable<Reading> readings)
+        {
+            await _readingRepository.SaveReadingsRangeAsync(readings);
         }
 
         public async Task<Reading> GetByIdAsync(Guid readingId)
@@ -40,6 +47,18 @@ namespace ATWService.Services
         public async Task<IEnumerable<Reading>> GetAllAsync()
         {
             return await _readingRepository.ReadingsAsync();
+        }
+
+        public async Task RecalculateAllReadCount()
+        {
+            var all = await _readingRepository.ReadingsAsync();
+
+            foreach(var item in all)
+            {
+                item.TotalReads = item.Reads.Count();
+            }
+
+            await AddOrUpdateRangeAsync(all);
         }
     }
 }
