@@ -56,5 +56,8 @@ namespace ATWService
 
         [OperationContract]
         Task<IEnumerable<LastSeenLog>> GetAllPastLastSyncLogsAsync();
+
+        [OperationContract]
+        Task<IEnumerable<Reading>> GetReadingsByIdsAsync(IEnumerable<Guid> readingIds);
     }
 }

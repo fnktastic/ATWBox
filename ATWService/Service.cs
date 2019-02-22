@@ -207,6 +207,11 @@ namespace ATWService
         {
             return await _lastSeenLogService.GetAllPastAsync();
         }
+
+        public async Task<IEnumerable<Reading>> GetReadingsByIdsAsync(IEnumerable<Guid> readingIds)
+        {
+            return await _readingService.GetByIds(readingIds);
+        }
         #endregion
     }
 }

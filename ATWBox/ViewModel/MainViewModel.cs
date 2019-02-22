@@ -70,7 +70,7 @@ namespace ATWBox.ViewModel
                         var reading = await service.SetReadingAsync(new Reading() { Id = Guid.NewGuid(), ReaderId = reader.Id, IPAddress = "192.168.15.125", StartedDateTime = DateTime.UtcNow });
                         do
                         {
-                            var read = await service.SetReadAsync(new Read() { Id = Guid.NewGuid(), ReadingId = reading.Id, EPC = "TAG 14", /*Time = DateTime.UtcNow*/ });
+                            var read = await service.SetReadAsync(new Read() { Id = Guid.NewGuid(), ReadingId = reading.Id, EPC = "TAG 14", Time = DateTime.UtcNow });
 
                             Application.Current.Dispatcher.Invoke((Action)(() =>
                             {

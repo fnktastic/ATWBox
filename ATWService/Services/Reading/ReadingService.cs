@@ -16,6 +16,7 @@ namespace ATWService.Services
         Task<Reading> GetByIdAsync(Guid readingId);
         Task<IEnumerable<Reading>> GetAllAsync();
         Task RecalculateAllReadCount();
+        Task<IEnumerable<Reading>> GetByIds(IEnumerable<Guid> readingIds);
     }
 
     public class ReadingService : IReadingService
@@ -59,6 +60,12 @@ namespace ATWService.Services
             }
 
             await AddOrUpdateRangeAsync(all);
+        }
+
+        public async Task<IEnumerable<Reading>> GetByIds(IEnumerable<Guid> readingIds)
+        {
+            return (await _readingRepository.ReadingsAsync())
+                .Join(readingIds, o => o.Id, id => id, (o, id) => o);
         }
     }
 }
