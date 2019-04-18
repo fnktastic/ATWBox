@@ -73,8 +73,6 @@ namespace ATWService.Repository
         {
             if (reading != null)
             {
-                reading.StartedDateTime = DateTime.UtcNow;
-
                 if (reading.Id == Guid.Empty)
                 {
                     reading.Id = Guid.NewGuid();

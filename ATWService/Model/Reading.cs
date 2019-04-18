@@ -12,9 +12,6 @@ namespace ATWService.Model
         public Guid Id { get; set; } = new Guid();
 
         [DataMember]
-        public string AntennaNumber { get; set; } = "<unknown>";
-
-        [DataMember]
         public string ReaderNumber { get; set; } = "<unknown>";
 
         [DataMember]

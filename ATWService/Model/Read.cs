@@ -21,6 +21,15 @@ namespace ATWService.Model
         [DataMember]
         public string Signal { get; set; } = "<unknown>";
 
+        [DataMember]
+        public string AntennaNumber { get; set; } = "<unknown>";
+
+        [DataMember]
+        public int SeenCount { get; set; } = 0;
+
+        [DataMember]
+        public int Rank { get; set; } = 0;
+
         [DataMember] 
         public Guid ReadingId { get; set; }
 
