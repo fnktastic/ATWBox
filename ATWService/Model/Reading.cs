@@ -32,6 +32,12 @@ namespace ATWService.Model
         [DataMember]
         public DateTime? EndedDateTime { get; set; } = null;
 
+        [DataMember]
+        public string RaceName { get; set; } = null;
+
+        [DataMember]
+        public string UserName { get; set; } = null;
+
         [DataMember] 
         public int ReaderId { get; set; }
 

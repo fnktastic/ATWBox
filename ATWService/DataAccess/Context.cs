@@ -10,7 +10,7 @@ namespace ATWService.DataAccess
 {
     public class Context : DbContext
     {
-        public Context() : base("AtwDB")
+        public Context() : base("ServerAtwDb")
         {
             this.Configuration.ProxyCreationEnabled = false;
         }

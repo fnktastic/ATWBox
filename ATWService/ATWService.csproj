@@ -66,6 +66,11 @@
     <Compile Include="DataAccess\Context.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Migrations\201904241239178_Init.cs" />
+    <Compile Include="Migrations\201904241239178_Init.Designer.cs">
+      <DependentUpon>201904241239178_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\LastSeenLog.cs" />
     <Compile Include="Model\Race.cs" />
     <Compile Include="Model\Reader.cs" />
@@ -91,7 +96,11 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201904241239178_Init.resx">
+      <DependentUpon>201904241239178_Init.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <VSToolsPath Condition="'$(VSToolsPath)' == '' and '$(VisualStudioVersion)' != '' and '$(VisualStudioVersion)' != '11.0'">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
